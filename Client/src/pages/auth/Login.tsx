@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller } from "react-hook-form";
 import SelcetBox from "./Login.selcetBox";
 import { Link } from "react-router-dom";
+
 const Login = () => {
   const schema = yup.object({
     email: yup.string().email().required("email is required"),
@@ -21,9 +22,9 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginProp>({
     resolver: yupResolver(schema),
-    defaultValues : {
-      selector : "React Js"
-    }
+    defaultValues: {
+      selector: "React Js",
+    },
   });
 
   return (
@@ -39,7 +40,9 @@ const Login = () => {
         <div>
           <h2 className=" text-2xl font-semibold text-center">Login</h2>
           <form
-            onSubmit={handleSubmit((value) => console.log(value))}
+            onSubmit={handleSubmit((value) => {
+              console.log(value);
+            })}
             action=""
             className=" shadow-lg  rounded-md 0px 7px 29px 0px] space-y-3 mt-2 border px-7 py-5"
           >
