@@ -6,12 +6,17 @@ import { signUpProp } from "../../typed/type";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
+import { useRegister } from "../../store/auth/server";
+import {ImSpinner2} from "react-icons/im"
 const SignUp = () => {
   const schema = yup.object({
     username: yup.string().required("username is required"),
     email: yup.string().email().required("email is required"),
     password: yup.string().min(4).required("password must be greater than 4"),
   });
+
+  //register fn
+  const registerfn = useRegister()
 
   const {
     register,
@@ -34,7 +39,7 @@ const SignUp = () => {
         <div>
           <h2 className=" text-2xl font-semibold text-center">Sign up</h2>
           <form
-            onSubmit={handleSubmit((value) => console.log(value))}
+            onSubmit={handleSubmit((value) => registerfn.mutate(value))}
             action=""
             className=" shadow-lg  rounded-md 0px 7px 29px 0px] space-y-3 mt-2 border px-7 py-5"
           >
@@ -90,14 +95,23 @@ const SignUp = () => {
             </div>
             <button
               type="submit"
-              className="py-2 px-4 bg-black active:scale-95 duration-300 transition text-white rounded-md"
+              disabled={registerfn.isLoading}
+              className="py-2 flex  items-center  px-4 bg-black active:scale-95 disabled:bg-black/10 duration-300 transition text-white rounded-md"
             >
+              {registerfn.isLoading && (
+                <ImSpinner2 className=" mr-3 animate-spin" />
+              )}
               Sign up
             </button>
           </form>
           <div className=" justify-end mt-2 flex items-center space-x-1">
             <p className=" text-sm">Do you have an account?</p>
-            <Link to={"/login"} className=" text-sm font-semibold underline underline-offset-2 hover:text-blue-500 duration-300 transition">Login</Link>
+            <Link
+              to={"/login"}
+              className=" text-sm font-semibold underline underline-offset-2 hover:text-blue-500 duration-300 transition"
+            >
+              Login
+            </Link>
           </div>
         </div>
       </div>

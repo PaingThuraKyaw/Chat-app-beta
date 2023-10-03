@@ -4,7 +4,7 @@ import { LoginProp, SelectorProp } from "../../typed/type";
 const SelcetBox = ({
   field,
 }: {
-  field: ControllerRenderProps<LoginProp, "selector">;
+  field: ControllerRenderProps<LoginProp, "select">;
 }) => {
   //data
   const data: Array<SelectorProp> = ["React Js", "Node Js", "Will Talk"];

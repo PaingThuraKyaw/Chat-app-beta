@@ -8,12 +8,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller } from "react-hook-form";
 import SelcetBox from "./Login.selcetBox";
 import { Link } from "react-router-dom";
+import { useLogin } from "../../store/auth/server";
+import { ImSpinner2 } from "react-icons/im";
 
 const Login = () => {
   const schema = yup.object({
     email: yup.string().email().required("email is required"),
     password: yup.string().min(4).required("password must be greater than 4"),
   });
+
+  //login fn
+  const login = useLogin();
 
   const {
     register,
@@ -23,7 +28,7 @@ const Login = () => {
   } = useForm<LoginProp>({
     resolver: yupResolver(schema),
     defaultValues: {
-      selector: "React Js",
+      select: "React Js",
     },
   });
 
@@ -41,7 +46,7 @@ const Login = () => {
           <h2 className=" text-2xl font-semibold text-center">Login</h2>
           <form
             onSubmit={handleSubmit((value) => {
-              console.log(value);
+              return login.mutate(value);
             })}
             action=""
             className=" shadow-lg  rounded-md 0px 7px 29px 0px] space-y-3 mt-2 border px-7 py-5"
@@ -82,15 +87,17 @@ const Login = () => {
 
             {/* select */}
             <Controller
-              name="selector"
+              name="select"
               control={control}
               render={({ field }) => <SelcetBox field={field} />}
             />
 
             <button
               type="submit"
-              className="py-2 px-4 bg-black active:scale-95 duration-300 transition text-white rounded-md"
+              disabled={login.isLoading}
+              className="py-2 px-4 flex items-center disabled:bg-black/10 bg-black active:scale-95 duration-300 transition text-white rounded-md"
             >
+              {login.isLoading && <ImSpinner2 className=" mr-3 animate-spin" />}
               Login
             </button>
           </form>

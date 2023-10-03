@@ -44,14 +44,12 @@ exports.login = async (req, res) => {
     const { email, password, select } = req.body;
 
     const user = await User.findOne({ email });
-
     if (!user) {
       return res.status(404).json({
         message: "Email is not exists!",
       });
     }
 
-    console.log({ password, UserPassword: user.password });
     const comparePassword = await bcrypt.compare(password, user.password);
 
     if (!comparePassword) {
@@ -70,7 +68,7 @@ exports.login = async (req, res) => {
       message: "Login success",
       success: true,
       data: select,
-      token
+      token,
     });
   } catch {
     res.status(500).json({
