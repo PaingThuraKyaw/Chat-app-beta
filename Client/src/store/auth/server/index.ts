@@ -30,13 +30,14 @@ const login = async (payload: LoginProp) => {
 };
 
 export const useLogin = () => {
-  const { setAuth } = useStore();
+  const { setAuth ,setRes  } = useStore();
   const navigate = useNavigate()
   return useMutation({
     mutationFn: (payload: LoginProp) => login(payload),
     onSuccess: (data) => {
       if (data.success) {
         setAuth(data.token);
+        setRes(data.data)
         navigate("/")
       }
     },

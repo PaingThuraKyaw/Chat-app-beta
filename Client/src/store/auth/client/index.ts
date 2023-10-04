@@ -1,15 +1,14 @@
 import { create } from "zustand";
 import Cookies from "js-cookie";
-type Auth = {
-  token: string;
-};
 
 export interface AuthSlice {
-  auth: Auth | string;
+  auth: string;
   setAuth: (auth: string) => void;
+  res: string;
+  setRes: (res: string) => void;
 }
 
-const intialState = { token: "" };
+const intialState = "";
 
 export const useStore = create<AuthSlice>((set) => {
   const cookie = Cookies.get("token");
@@ -20,6 +19,11 @@ export const useStore = create<AuthSlice>((set) => {
       set((state) => {
         Cookies.set("token", auth);
         return { ...state, auth };
+      }),
+    res: "",
+    setRes: (res) =>
+      set(() => {
+        return {res}
       }),
   };
 });
