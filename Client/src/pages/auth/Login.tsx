@@ -5,8 +5,6 @@ import { useForm } from "react-hook-form";
 import { LoginProp } from "../../typed/type";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller } from "react-hook-form";
-import SelcetBox from "./Login.selcetBox";
 import { Link } from "react-router-dom";
 import { useLogin } from "../../store/auth/server";
 import { ImSpinner2 } from "react-icons/im";
@@ -23,14 +21,15 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm<LoginProp>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      select: "React Js",
-    },
   });
+
+  //handleFn
+  const handler = (value: LoginProp) => {
+    login.mutate(value);
+  };
 
   return (
     <Container>
@@ -45,11 +44,9 @@ const Login = () => {
         <div>
           <h2 className=" text-2xl font-semibold text-center">Login</h2>
           <form
-            onSubmit={handleSubmit((value) => {
-              return login.mutate(value);
-            })}
+            onSubmit={handleSubmit((value) => handler(value))}
             action=""
-            className=" shadow-lg  rounded-md 0px 7px 29px 0px] space-y-3 mt-2 border px-7 py-5"
+            className=" shadow-lg  rounded-md 0px 7px 29px 0px] space-y-4 mt-2 border px-7 py-5"
           >
             {/* email */}
             <div>
@@ -69,7 +66,7 @@ const Login = () => {
             </div>
 
             {/* password */}
-            <div>
+            <div className="">
               <label htmlFor="Password" className=" mb-1 block">
                 Password
               </label>
@@ -85,17 +82,10 @@ const Login = () => {
               </p>
             </div>
 
-            {/* select */}
-            <Controller
-              name="select"
-              control={control}
-              render={({ field }) => <SelcetBox field={field} />}
-            />
-
             <button
               type="submit"
               disabled={login.isLoading}
-              className="py-2 px-4 flex items-center disabled:bg-black/10 bg-black active:scale-95 duration-300 transition text-white rounded-md"
+              className="py-2  px-4 flex items-center disabled:bg-black/10 bg-black active:scale-95 duration-300 transition text-white rounded-md"
             >
               {login.isLoading && <ImSpinner2 className=" mr-3 animate-spin" />}
               Login

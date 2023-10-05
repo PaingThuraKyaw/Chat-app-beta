@@ -4,8 +4,6 @@ import Cookies from "js-cookie";
 export interface AuthSlice {
   auth: string;
   setAuth: (auth: string) => void;
-  res: string;
-  setRes: (res: string) => void;
 }
 
 const intialState = "";
@@ -17,13 +15,8 @@ export const useStore = create<AuthSlice>((set) => {
     auth: intialAuth,
     setAuth: (auth) =>
       set((state) => {
-        Cookies.set("token", auth);
+        Cookies.set("token", auth, { expires: 1 });
         return { ...state, auth };
-      }),
-    res: "",
-    setRes: (res) =>
-      set(() => {
-        return {res}
       }),
   };
 });

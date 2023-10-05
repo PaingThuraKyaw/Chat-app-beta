@@ -7,7 +7,16 @@ export interface signUpProp {
 export interface LoginProp {
   email: string;
   password: string;
-  select ?: "React Js" | "Node Js" | "Will Talk";
+}
+
+export interface SelectPropSelect {
+  select?: "React Js" | "Node Js" | "Will Talk";
 }
 
 export type SelectorProp = "React Js" | "Node Js" | "Will Talk";
+
+export interface SocketProp {
+  username: string;
+  message: string;
+  setup_time: string;
+}

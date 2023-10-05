@@ -1,13 +1,15 @@
 import { ControllerRenderProps } from "react-hook-form";
-import { LoginProp, SelectorProp } from "../../typed/type";
+import { SelectPropSelect, SelectorProp } from "../../../typed/type";
 
 const SelcetBox = ({
   field,
 }: {
-  field: ControllerRenderProps<LoginProp, "select">;
+  field: ControllerRenderProps<SelectPropSelect, "select">;
 }) => {
   //data
   const data: Array<SelectorProp> = ["React Js", "Node Js", "Will Talk"];
+
+  // setRes("React Js");
 
   return (
     <div className="relative w-full">

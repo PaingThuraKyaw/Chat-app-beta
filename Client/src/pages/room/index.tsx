@@ -1,10 +1,21 @@
-import { useStore } from "../../store/auth/client";
+import useChatStore from "../../store/chat/client";
 import Chat from "./Chat/Chat";
 import LeftSlide from "./LeftSlide/LeftSlide";
-
+import { useEffect, useState } from "react";
 const Room = () => {
-  const { res } = useStore();
-  console.log(res);
+  const { socket } = useChatStore();
+
+  const [socketRes, setSocketRes] = useState();
+
+  useEffect(() => {
+    socket?.on("message", (data) => {
+      console.log(data);
+      setSocketRes(data);
+    });
+  }, [socket]);
+
+  console.log(socketRes);
+  
 
   return (
     <div className=" grid grid-cols-12">

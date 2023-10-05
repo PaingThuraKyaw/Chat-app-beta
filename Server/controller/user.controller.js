@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
   }
 
   try {
-    const { email, password, select } = req.body;
+    const { email, password } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
     const comparePassword = await bcrypt.compare(password, user.password);
 
     if (!comparePassword) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "password is not exists!",
       });
     }
@@ -67,7 +67,6 @@ exports.login = async (req, res) => {
     res.status(200).json({
       message: "Login success",
       success: true,
-      data: select,
       token,
     });
   } catch {
