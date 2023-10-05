@@ -10,7 +10,6 @@ const useChatStore = create<chatProp>((set) => {
     socket: null,
     setSocket: (socket) =>
       set((state) => {
-        console.log(state);
         return {
           ...state,
           socket,

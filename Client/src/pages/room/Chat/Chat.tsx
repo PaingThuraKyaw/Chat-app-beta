@@ -1,10 +1,16 @@
+import { SocketProp } from "../../../typed/type";
 
-const Chat = () => {
+const Chat = ({ socketRes }: { socketRes: SocketProp[] | undefined }) => {
+  console.log(socketRes);
 
   return (
     <div className=" bg-gray-100  h-screen">
-      {/* <p className=" bg-black/50">{state?.username}</p>
-      <p>{state?.message}</p> */}
+      {socketRes?.map((socket) => (
+        <div>
+          <p className="">{socket.username}</p>
+          <p>{socket.message}</p>
+        </div>
+      ))}
     </div>
   );
 };
