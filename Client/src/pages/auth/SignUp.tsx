@@ -10,7 +10,6 @@ import { useRegister } from "../../store/auth/server";
 import {ImSpinner2} from "react-icons/im"
 const SignUp = () => {
   const schema = yup.object({
-    username: yup.string().required("username is required"),
     email: yup.string().email().required("email is required"),
     password: yup.string().min(4).required("password must be greater than 4"),
   });
@@ -43,22 +42,7 @@ const SignUp = () => {
             action=""
             className=" shadow-lg  rounded-md 0px 7px 29px 0px] space-y-3 mt-2 border px-7 py-5"
           >
-            {/* username */}
-            <div>
-              <label htmlFor="username" className=" mb-1 block">
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                className=" w-[300px] outline-none py-2 px-3 rounded-md focus:ring-1 focus:ring-blue-100 duration-300 transition border-2 focus:border-[#ace6f6] border-zinc-500/90"
-                placeholder="Username"
-                {...register("username")}
-              />
-              <p className=" fontsem text-sm text-red-500 mt-1">
-                {errors.username?.message}
-              </p>
-            </div>
+         
 
             {/* email */}
             <div>

@@ -5,7 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { connect } from "socket.io-client";
 import useChatStore from "../../../store/chat/client";
 const UserSelectRoom = () => {
-  const { control, handleSubmit } = useForm<SelectPropSelect>({
+  const {
+    control,
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<SelectPropSelect>({
     defaultValues: {
       select: "React Js",
     },
@@ -17,9 +22,9 @@ const UserSelectRoom = () => {
 
   const handler = (value: SelectPropSelect) => {
     const socket = connect("http://localhost:3000");
-    setSocket(socket);   
+    setSocket(socket);
     navigate("/room", {
-      state: value.select,
+      state: value,
     });
   };
 
@@ -31,6 +36,23 @@ const UserSelectRoom = () => {
           className=" space-y-5 w-[350px] border px-6 py-4"
           onSubmit={handleSubmit((value) => handler(value))}
         >
+          {/* username */}
+          <div>
+            <label htmlFor="username" className=" mb-1 block">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              className=" w-[300px] outline-none py-2 px-3 rounded-md focus:ring-1 focus:ring-blue-100 duration-300 transition border-2 focus:border-[#ace6f6] border-zinc-500/90"
+              placeholder="Username"
+              {...register("username")}
+            />
+            <p className=" fontsem text-sm text-red-500 mt-1">
+              {errors.username?.message}
+            </p>
+          </div>
+
           {/* select */}
           <Controller
             name="select"

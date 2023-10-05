@@ -1,8 +1,14 @@
 import { BsFillChatSquareTextFill, BsFillPeopleFill } from "react-icons/bs";
 
-const LeftSlide = ({ state }: { state: string }) => {
+const LeftSlide = ({
+  state,
+  leaveRoom,
+}: {
+  state: string;
+  leaveRoom: () => void;
+}) => {
   return (
-    <div className=" bg-[#262626]  h-screen ">
+    <div className=" bg-[#262626] relative  h-screen ">
       <div className=" pt-5">
         <div className=" px-5 pb-3 text-xl font-semibold flex items-center space-x-1 text-white/80">
           <h3>Room name</h3>
@@ -19,6 +25,12 @@ const LeftSlide = ({ state }: { state: string }) => {
           <h3>Join User</h3>
           <BsFillPeopleFill />
         </div>
+      </div>
+
+      <div className=" absolute bottom-5">
+        <button onClick={leaveRoom} className="">
+          Log out
+        </button>
       </div>
     </div>
   );

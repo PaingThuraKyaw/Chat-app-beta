@@ -21,17 +21,45 @@ const server = app.listen(port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
 
+//add user
+const users = [];
+
+const saveUser = (id, username, room) => {
+  const user = { id, username, room };
+  return users.push(user);
+};
+
+//disconnect user
+const disconnectUser = (id) => {
+  const index = users.findIndex((user) => user.id === id);
+
+  if (index !== -1) {
+    return users.splice(index)[0];
+  }
+};
+
 //socket
-const io = socket(server, {
+const io = new socket.Server(server, {
   cors: "*",
 });
 
 io.on("connection", (socket) => {
-  console.log("client connect");
   const BOT = "BOT";
-  const message = "Welcom to my room";
-  socket.emit("message", Format(BOT, message));
-  socket.broadcast.emit("message",Format(BOT,"User Join"))
+  //userJoin
+  socket.on("join_room", ({ username, room }) => {
+    saveUser(socket.id, username, room);
+    socket.join(room);
+    socket.emit("message", Format(BOT, "Welcome to my room"));
+    socket.broadcast.to(room).emit("message", Format(BOT, "User Join"));
+  });
+
+  socket.on("disconnect", () => {
+    const User = disconnectUser(socket.id);
+    console.log(User);
+    if (User) {
+      io.to(User.room).emit("message", Format(BOT, "User is Left"));
+    }
+  });
 });
 
 //mongose

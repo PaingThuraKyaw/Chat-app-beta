@@ -27,7 +27,7 @@ const App = () => {
         },
         {
           path: "*",
-          element: <Room />,
+          element: <>Page not found</> ,
         },
       ],
     },

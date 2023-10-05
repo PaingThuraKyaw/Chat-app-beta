@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import useChatStore from "../../store/chat/client";
 import Chat from "./Chat/Chat";
 import LeftSlide from "./LeftSlide/LeftSlide";
@@ -9,19 +9,40 @@ const Room = () => {
 
   const [socketRes, setSocketRes] = useState<SocketProp[]>([]);
   const { state } = useLocation();
+  const navigate = useNavigate();
 
+  //socket call
   useEffect(() => {
+    socket?.emit("join_room", { username: state.username, room: state.select });
+
     socket?.on("message", (data) => {
       setSocketRes((prev: SocketProp[]) => [...prev, data]);
     });
-  }, [socket]);
 
-  console.log(socketRes);
+    return () => {
+      if (socket) {
+        socket?.disconnect();
+      }
+    };
+  }, [socket, state.select, state.username]);
+
+  //conditional for protect route
+  if (!socket?.connect) {
+    return <Navigate to={"/"} />;
+  }
+
+  const leaveRoom = () => {
+    navigate("/");
+  };
+
+
+  console.log(socket.id);
+  
 
   return (
     <div className=" grid grid-cols-12">
       <div className=" col-span-3">
-        <LeftSlide state={state} />
+        <LeftSlide leaveRoom={leaveRoom} state={state.select} />
       </div>
       <div className=" col-span-9">
         <Chat socketRes={socketRes} />
