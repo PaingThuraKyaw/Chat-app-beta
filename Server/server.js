@@ -29,9 +29,9 @@ const saveUser = (id, username, room) => {
   return users.push(user);
 };
 
-//same user
+//same room user
 const getSameRoomUser = (room) => {
-  const user = users.filter((user = user.room === room));
+  return users.filter((user) => user.room === room);
 };
 
 //disconnect user
@@ -55,11 +55,16 @@ io.on("connection", (socket) => {
     saveUser(socket.id, username, room);
     socket.join(room);
     socket.emit("message", Format(BOT, "Welcome to my room"));
-    socket.broadcast.to(room).emit("message", Format(BOT, "User Join"));
+    socket.broadcast
+      .to(room)
+      .emit("message", Format(BOT, `${username} Join the room`));
     //send
     socket.on("massage_send", (data) => {
       io.to(room).emit("message", Format(username, data));
     });
+
+    //same user
+    io.to(room).emit("sameuser", getSameRoomUser(room));
   });
 
   socket.on("disconnect", () => {

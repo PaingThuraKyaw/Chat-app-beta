@@ -1,11 +1,14 @@
 import { BsFillChatSquareTextFill, BsFillPeopleFill } from "react-icons/bs";
+import { UserProp } from "../../../typed/type";
 
 const LeftSlide = ({
   select,
   leaveRoom,
+  user,
 }: {
   select: string | undefined;
   leaveRoom: () => void;
+  user: UserProp[];
 }) => {
   return (
     <div className=" bg-[#262626] relative  h-screen ">
@@ -24,6 +27,13 @@ const LeftSlide = ({
         <div className="pb-3 text-xl font-semibold flex items-center space-x-1 text-white/80">
           <h3>Join User</h3>
           <BsFillPeopleFill />
+        </div>
+        <div>
+          {user?.map((use) => (
+            <div key={use.id}>
+              <p>{use.username}</p>
+            </div>
+          ))}
         </div>
       </div>
 

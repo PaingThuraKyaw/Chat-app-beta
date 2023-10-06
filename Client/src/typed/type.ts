@@ -20,3 +20,9 @@ export interface SocketProp {
   message: string;
   setup_time: string;
 }
+
+
+export interface UserProp {
+  username : string,
+  id : number
+}
