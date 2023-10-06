@@ -16,16 +16,15 @@ const UserSelectRoom = () => {
     },
   });
 
-  const { setSocket } = useChatStore();
+  const { setSocket, setResData } = useChatStore();
 
   const navigate = useNavigate();
 
   const handler = (value: SelectPropSelect) => {
     const socket = connect("http://localhost:3000");
     setSocket(socket);
-    navigate("/room", {
-      state: value,
-    });
+    setResData(value);
+    navigate("/room");
   };
 
   return (

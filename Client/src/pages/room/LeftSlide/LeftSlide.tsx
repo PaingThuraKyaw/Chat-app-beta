@@ -1,10 +1,10 @@
 import { BsFillChatSquareTextFill, BsFillPeopleFill } from "react-icons/bs";
 
 const LeftSlide = ({
-  state,
+  select,
   leaveRoom,
 }: {
-  state: string;
+  select: string | undefined;
   leaveRoom: () => void;
 }) => {
   return (
@@ -15,7 +15,7 @@ const LeftSlide = ({
           <BsFillChatSquareTextFill />
         </div>
         <p className=" mx-2 mt-3 rounded-md  py-3  px-3 font-[500]  bg-[#686868] text-white/90">
-          {state} Chat
+          {select} Chat
         </p>
       </div>
 

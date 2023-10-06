@@ -29,6 +29,11 @@ const saveUser = (id, username, room) => {
   return users.push(user);
 };
 
+//same user
+const getSameRoomUser = (room) => {
+  const user = users.filter((user = user.room === room));
+};
+
 //disconnect user
 const disconnectUser = (id) => {
   const index = users.findIndex((user) => user.id === id);
@@ -51,13 +56,19 @@ io.on("connection", (socket) => {
     socket.join(room);
     socket.emit("message", Format(BOT, "Welcome to my room"));
     socket.broadcast.to(room).emit("message", Format(BOT, "User Join"));
+    //send
+    socket.on("massage_send", (data) => {
+      io.to(room).emit("message", Format(username, data));
+    });
   });
 
   socket.on("disconnect", () => {
     const User = disconnectUser(socket.id);
-    console.log(User);
     if (User) {
-      io.to(User.room).emit("message", Format(BOT, "User is Left"));
+      io.to(User.room).emit(
+        "message",
+        Format(BOT, `${User.username} left the room`)
+      );
     }
   });
 });

@@ -10,7 +10,7 @@ export interface LoginProp {
 
 export interface SelectPropSelect {
   username : string
-  select?: "React Js" | "Node Js" | "Will Talk";
+  select?: string;
 }
 
 export type SelectorProp = "React Js" | "Node Js" | "Will Talk";
